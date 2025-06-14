@@ -1,18 +1,62 @@
-# 🧪 NestJS User Authentication API
+# Graduation Project - Backend
 
-This project is a basic user management system built with **NestJS** and **Mongoose**, featuring authentication, validation, and Swagger documentation.
+This is the backend for the graduation project, built with **NestJS** and **MongoDB**.
 
-## 📁 Project Structure
+---
 
-- **Users Module**
-  - Mongoose Schema for User
-  - DTOs with validation
-  - Auth-protected and public endpoints
+## Overview till now
 
-## 🛠️ Tech Stack
+A user management system that supports:
 
-- [NestJS](https://nestjs.com/)
-- [MongoDB + Mongoose](https://mongoosejs.com/)
-- [Swagger](https://swagger.io/)
-- [JWT Authentication](https://jwt.io/)
-- [class-validator](https://github.com/typestack/class-validator)
+- User registration (Sign Up)
+- User authentication (Sign In)
+- Automatic role assignment (`user` by default)
+- Input validation for all fields
+- Data persistence in MongoDB
+
+---
+
+## 🛠️ Technologies Used
+
+- **NestJS** – for structured backend development
+- **MongoDB** with **Mongoose** – database and ODM
+- **class-validator** – for DTO validation
+- **@nestjs/swagger** – for API documentation
+- **bcrypt** – to securely hash user passwords
+- **dotenv** – for environment variable management
+
+---
+
+## ⚙️ Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone <https://github.com/youssefzakii/FinalProjectBE>
+
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Configure environment variables
+
+```bash
+MONGO_DB_URI=mongodb://localhost:27017/graduation_db
+
+```
+
+### 4. Run the application
+
+```bash
+npm run start:dev
+```
+
+### API Documentation
+
+```bash
+http://localhost:3000/api-docs#/
+```
