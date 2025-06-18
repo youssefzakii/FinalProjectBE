@@ -14,7 +14,7 @@ export class IsAuthenticatedMiddleware implements NestMiddleware {
 
   use(req: Request, res: Response, next: NextFunction) {
     const bearedToken = req.headers['authorization'];
-
+    console.log('Authorization Header:');
     if (!bearedToken) {
       throw new UnauthorizedException();
     }

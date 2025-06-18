@@ -4,6 +4,7 @@ import {
   NestModule,
   RequestMethod,
 } from '@nestjs/common';
+import { CvModule } from './modules/CV/cv/cv.module';
 import { UsersModule } from './modules/users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -12,6 +13,7 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { IsAuthenticatedMiddleware } from './middlewares/is-authenticated.middleware';
 @Module({
   imports: [
+    CvModule,
     ConfigModule.forRoot({ isGlobal: true }),
     //MongooseModule.forRoot('mongodb://localhost/nest'),
     MongooseModule.forRootAsync({
@@ -33,6 +35,7 @@ import { IsAuthenticatedMiddleware } from './middlewares/is-authenticated.middle
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware).forRoutes('/');
+    if (false){
     consumer
       .apply(IsAuthenticatedMiddleware)
       .exclude(
@@ -44,4 +47,5 @@ export class AppModule implements NestModule {
       )
       .forRoutes('/');
   }
+}
 }

@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
+const cv_module_1 = require("./modules/CV/cv/cv.module");
 const users_module_1 = require("./modules/users/users.module");
 const mongoose_1 = require("@nestjs/mongoose");
 const config_1 = require("@nestjs/config");
@@ -17,19 +18,22 @@ const is_authenticated_middleware_1 = require("./middlewares/is-authenticated.mi
 let AppModule = class AppModule {
     configure(consumer) {
         consumer.apply(logger_middleware_1.LoggerMiddleware).forRoutes('/');
-        consumer
-            .apply(is_authenticated_middleware_1.IsAuthenticatedMiddleware)
-            .exclude({
-            path: '/auth/sign-up',
-            method: common_1.RequestMethod.POST,
-        }, { path: '/auth/sign-in', method: common_1.RequestMethod.POST })
-            .forRoutes('/');
+        if (false) {
+            consumer
+                .apply(is_authenticated_middleware_1.IsAuthenticatedMiddleware)
+                .exclude({
+                path: '/auth/sign-up',
+                method: common_1.RequestMethod.POST,
+            }, { path: '/auth/sign-in', method: common_1.RequestMethod.POST })
+                .forRoutes('/');
+        }
     }
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            cv_module_1.CvModule,
             config_1.ConfigModule.forRoot({ isGlobal: true }),
             mongoose_1.MongooseModule.forRootAsync({
                 imports: [config_1.ConfigModule],

@@ -20,6 +20,7 @@ let IsAuthenticatedMiddleware = class IsAuthenticatedMiddleware {
     }
     use(req, res, next) {
         const bearedToken = req.headers['authorization'];
+        console.log('Authorization Header:');
         if (!bearedToken) {
             throw new common_1.UnauthorizedException();
         }
