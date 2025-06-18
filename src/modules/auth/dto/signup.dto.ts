@@ -29,17 +29,18 @@ class BaseAuthDto {
 export class signInDto extends BaseAuthDto {}
 
 export class signUpDto extends BaseAuthDto {
+  /*
   @ApiProperty({
     example: "youssef zaki",
   })
   fullname: string;
-
+*/
   @ApiProperty({
     example: "email@gmail.com",
   })
   @IsEmail()
   email: string;
-
+  /*
   @ApiProperty({
     example: 25,
   })
@@ -55,7 +56,7 @@ export class signUpDto extends BaseAuthDto {
     message: "Phone number must be 11 digits and start with 01",
   })
   phone: string;
-
+*/
   @ApiProperty({
     example: ["Frontend", "Backend"],
     type: [String],

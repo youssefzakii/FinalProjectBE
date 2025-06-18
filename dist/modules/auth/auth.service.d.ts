@@ -2,17 +2,17 @@ import { signInDto, signUpDto } from "./dto/signup.dto";
 import { User } from "src/schemas/user.schema";
 import { Model } from "mongoose";
 import { ConfigService } from "@nestjs/config";
+import { v2 as CloudinaryType } from "cloudinary";
 export declare class AuthService {
     private readonly userModel;
     private readonly configService;
-    constructor(userModel: Model<User>, configService: ConfigService);
-    signUp(dto: signUpDto): Promise<{
-        fullname: string;
+    private cloudinary;
+    constructor(userModel: Model<User>, configService: ConfigService, cloudinary: typeof CloudinaryType);
+    signUp(dto: signUpDto, avatar?: Express.Multer.File): Promise<{
         username: string;
         email: string;
-        age: number;
-        phone: string;
         role: string;
+        avatar: string;
         _id: import("mongoose").Types.ObjectId;
         __v: number;
     }>;

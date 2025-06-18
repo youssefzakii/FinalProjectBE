@@ -37,19 +37,10 @@ class signInDto extends BaseAuthDto {
 }
 exports.signInDto = signInDto;
 class signUpDto extends BaseAuthDto {
-    fullname;
     email;
-    age;
-    phone;
     Fields;
 }
 exports.signUpDto = signUpDto;
-__decorate([
-    (0, swagger_1.ApiProperty)({
-        example: "youssef zaki",
-    }),
-    __metadata("design:type", String)
-], signUpDto.prototype, "fullname", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
         example: "email@gmail.com",
@@ -57,24 +48,6 @@ __decorate([
     (0, class_validator_1.IsEmail)(),
     __metadata("design:type", String)
 ], signUpDto.prototype, "email", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)({
-        example: 25,
-    }),
-    (0, class_validator_1.IsInt)(),
-    (0, class_validator_1.Min)(16),
-    (0, class_validator_1.Max)(60),
-    __metadata("design:type", Number)
-], signUpDto.prototype, "age", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)({
-        example: "01011121314",
-    }),
-    (0, class_validator_1.Matches)(/^01[0-9]{9}$/, {
-        message: "Phone number must be 11 digits and start with 01",
-    }),
-    __metadata("design:type", String)
-], signUpDto.prototype, "phone", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
         example: ["Frontend", "Backend"],

@@ -5,10 +5,7 @@ declare class BaseAuthDto {
 export declare class signInDto extends BaseAuthDto {
 }
 export declare class signUpDto extends BaseAuthDto {
-    fullname: string;
     email: string;
-    age: number;
-    phone: string;
     Fields: string[];
 }
 export {};

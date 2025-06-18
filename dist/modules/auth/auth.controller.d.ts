@@ -1,15 +1,13 @@
-import { AuthService } from './auth.service';
-import { signInDto, signUpDto } from './dto/signup.dto';
+import { signInDto, signUpDto } from "./dto/signup.dto";
+import { AuthService } from "./auth.service";
 export declare class AuthController {
     private readonly service;
     constructor(service: AuthService);
-    signUp(dto: signUpDto): Promise<{
-        fullname: string;
+    signUp(dto: signUpDto, avatar: Express.Multer.File): Promise<{
         username: string;
         email: string;
-        age: number;
-        phone: string;
         role: string;
+        avatar: string;
         _id: import("mongoose").Types.ObjectId;
         __v: number;
     }>;

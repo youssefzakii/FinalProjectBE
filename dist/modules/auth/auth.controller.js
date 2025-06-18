@@ -14,15 +14,17 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
-const auth_service_1 = require("./auth.service");
+const platform_express_1 = require("@nestjs/platform-express");
 const signup_dto_1 = require("./dto/signup.dto");
+const auth_service_1 = require("./auth.service");
+const swagger_1 = require("@nestjs/swagger");
 let AuthController = class AuthController {
     service;
     constructor(service) {
         this.service = service;
     }
-    signUp(dto) {
-        return this.service.signUp(dto);
+    signUp(dto, avatar) {
+        return this.service.signUp(dto, avatar);
     }
     signIn(dto) {
         return this.service.signIn(dto);
@@ -30,21 +32,43 @@ let AuthController = class AuthController {
 };
 exports.AuthController = AuthController;
 __decorate([
-    (0, common_1.Post)('/sign-up'),
+    (0, common_1.Post)("/sign-up"),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)("avatar")),
+    (0, swagger_1.ApiConsumes)("multipart/form-data"),
+    (0, swagger_1.ApiBody)({
+        schema: {
+            type: "object",
+            properties: {
+                username: { type: "string", example: "youssef" },
+                password: { type: "string", example: "12345678" },
+                email: { type: "string", example: "email@gmail.com" },
+                Fields: {
+                    type: "array",
+                    items: { type: "string" },
+                    example: ["Frontend", "Backend"],
+                },
+                avatar: {
+                    type: "string",
+                    format: "binary",
+                },
+            },
+        },
+    }),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [signup_dto_1.signUpDto]),
+    __metadata("design:paramtypes", [signup_dto_1.signUpDto, Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "signUp", null);
 __decorate([
-    (0, common_1.Post)('/sign-in'),
+    (0, common_1.Post)("/sign-in"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [signup_dto_1.signInDto]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "signIn", null);
 exports.AuthController = AuthController = __decorate([
-    (0, common_1.Controller)('/auth'),
+    (0, common_1.Controller)("/auth"),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], AuthController);
 //# sourceMappingURL=auth.controller.js.map
