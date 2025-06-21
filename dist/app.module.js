@@ -18,7 +18,7 @@ const is_authenticated_middleware_1 = require("./middlewares/is-authenticated.mi
 let AppModule = class AppModule {
     configure(consumer) {
         consumer.apply(logger_middleware_1.LoggerMiddleware).forRoutes('/');
-        if (false) {
+        if (true) {
             consumer
                 .apply(is_authenticated_middleware_1.IsAuthenticatedMiddleware)
                 .exclude({

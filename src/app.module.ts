@@ -15,7 +15,6 @@ import { IsAuthenticatedMiddleware } from './middlewares/is-authenticated.middle
   imports: [
     CvModule,
     ConfigModule.forRoot({ isGlobal: true }),
-    //MongooseModule.forRoot('mongodb://localhost/nest'),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (ConfigService: ConfigService) => {
@@ -35,7 +34,7 @@ import { IsAuthenticatedMiddleware } from './middlewares/is-authenticated.middle
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware).forRoutes('/');
-    if (false){
+    if (true){
     consumer
       .apply(IsAuthenticatedMiddleware)
       .exclude(

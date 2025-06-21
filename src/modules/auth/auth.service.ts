@@ -41,7 +41,6 @@ export class AuthService {
     const { password: _pass, ...result } = user.toJSON();
     return result;
   }
-
   async signIn(dto: signInDto) {
     const user = await this.userModel.findOne({ username: dto.username });
 
