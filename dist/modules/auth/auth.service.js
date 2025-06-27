@@ -56,8 +56,8 @@ let AuthService = class AuthService {
         if (!isPasswordMatching) {
             throw new common_1.ForbiddenException("Credentails provided are incorrect");
         }
-        const { username } = user.toJSON();
-        const payload = { username };
+        const { username, role } = user.toJSON();
+        const payload = { username, role };
         const token = jwt.sign(payload, this.configService.getOrThrow("JWT_SECRET"));
         return {
             token,

@@ -57,9 +57,9 @@ export class AuthService {
       throw new ForbiddenException("Credentails provided are incorrect");
     }
 
-    const { username } = user.toJSON();
+    const { username, role } = user.toJSON();
 
-    const payload = { username };
+    const payload = { username , role};
 
     const token = jwt.sign(
       payload,
