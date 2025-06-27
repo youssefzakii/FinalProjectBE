@@ -16,6 +16,7 @@ let User = class User {
     email;
     password;
     role;
+    Fields;
     avatar;
 };
 exports.User = User;
@@ -35,6 +36,10 @@ __decorate([
     (0, mongoose_1.Prop)({ default: "user", enum: ["user", "admin"] }),
     __metadata("design:type", String)
 ], User.prototype, "role", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", Array)
+], User.prototype, "Fields", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ type: String, default: null }),
     __metadata("design:type", String)

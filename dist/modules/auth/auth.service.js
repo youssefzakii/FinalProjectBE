@@ -57,6 +57,7 @@ let AuthService = class AuthService {
             avatar: avatarUrl,
         });
         const { password: _pass, ...result } = user.toJSON();
+        console.log(user);
         return result;
     }
     async signIn(dto) {
@@ -66,7 +67,7 @@ let AuthService = class AuthService {
         }
         const isPasswordMatching = await bcrypt.compare(dto.password, user.password);
         if (!isPasswordMatching) {
-            throw new common_1.ForbiddenException("Credentials provided are incorrect");
+            throw new common_1.ForbiddenException("password is incorrect");
         }
         const payload = { username: user.username, id: user._id };
         const token = jwt.sign(payload, this.configService.getOrThrow("JWT_SECRET"));

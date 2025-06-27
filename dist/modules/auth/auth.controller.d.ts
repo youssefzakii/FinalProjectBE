@@ -7,6 +7,7 @@ export declare class AuthController {
         username: string;
         email: string;
         role: string;
+        Fields: string[];
         avatar: string;
         _id: import("mongoose").Types.ObjectId;
         __v: number;

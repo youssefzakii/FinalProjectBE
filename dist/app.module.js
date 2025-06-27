@@ -14,16 +14,26 @@ const config_1 = require("@nestjs/config");
 const auth_module_1 = require("./modules/auth/auth.module");
 const logger_middleware_1 = require("./middlewares/logger.middleware");
 const is_authenticated_middleware_1 = require("./middlewares/is-authenticated.middleware");
+const company_module_1 = require("./modules/company/company.module");
 let AppModule = class AppModule {
     configure(consumer) {
-        consumer.apply(logger_middleware_1.LoggerMiddleware).forRoutes('/');
+        consumer.apply(logger_middleware_1.LoggerMiddleware).forRoutes("/");
         consumer
             .apply(is_authenticated_middleware_1.IsAuthenticatedMiddleware)
             .exclude({
-            path: '/auth/sign-up',
+            path: "/auth/sign-up",
             method: common_1.RequestMethod.POST,
-        }, { path: '/auth/sign-in', method: common_1.RequestMethod.POST })
-            .forRoutes('/');
+        }, {
+            path: "/auth/sign-in",
+            method: common_1.RequestMethod.POST,
+        }, {
+            path: "/company/sign-up",
+            method: common_1.RequestMethod.POST,
+        }, {
+            path: "/company/sign-in",
+            method: common_1.RequestMethod.POST,
+        })
+            .forRoutes("/");
     }
 };
 exports.AppModule = AppModule;
@@ -34,7 +44,7 @@ exports.AppModule = AppModule = __decorate([
             mongoose_1.MongooseModule.forRootAsync({
                 imports: [config_1.ConfigModule],
                 useFactory: (ConfigService) => {
-                    const uri = ConfigService.getOrThrow('MONGO_DB_URI');
+                    const uri = ConfigService.getOrThrow("MONGO_DB_URI");
                     return {
                         uri,
                     };
@@ -43,6 +53,7 @@ exports.AppModule = AppModule = __decorate([
             }),
             auth_module_1.AuthModule,
             users_module_1.UsersModule,
+            company_module_1.CompanyModule,
         ],
         controllers: [],
         providers: [],

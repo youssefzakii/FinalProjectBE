@@ -1,10 +1,10 @@
-import { Body, Controller, Get, Post, Req } from '@nestjs/common';
-import { UsersService } from './users.services';
-import { ApiBearerAuth } from '@nestjs/swagger';
-import { IJwtPayload } from 'src/interfaces/jwt.payload.interface';
+import { Body, Controller, Get, Post, Query, Req } from "@nestjs/common";
+import { UsersService } from "./users.services";
+import { ApiBearerAuth } from "@nestjs/swagger";
+import { IJwtPayload } from "src/interfaces/jwt.payload.interface";
 
 @ApiBearerAuth()
-@Controller('/users')
+@Controller("/users")
 export class UsersController {
   /*
     service: UsersService;
@@ -14,7 +14,7 @@ export class UsersController {
 */
 
   constructor(private readonly service: UsersService) {}
-  @Get('/')
+  @Get("/")
   getAllUsers() {
     return this.service.getAllUsers();
   }
@@ -24,9 +24,14 @@ export class UsersController {
     return this.service.addOneUser(dto);
   }
 */
-  @Get('/profile')
+  @Get("/profile")
   getProfile(@Req() req: Request) {
-    const user: IJwtPayload = req['user'];
+    const user: IJwtPayload = req["user"];
     return this.service.getProfile(user);
+  }
+
+  @Get("/search")
+  search(@Query("field") field: string) {
+    return this.service.findByField(field);
   }
 }

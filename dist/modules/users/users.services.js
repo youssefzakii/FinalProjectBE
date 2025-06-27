@@ -28,6 +28,11 @@ let UsersService = class UsersService {
     async getProfile(user) {
         return this.UserModel.findOne({ username: user.username });
     }
+    async findByField(field) {
+        return this.UserModel.find({
+            Fields: { $regex: field, $options: "i" },
+        });
+    }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([

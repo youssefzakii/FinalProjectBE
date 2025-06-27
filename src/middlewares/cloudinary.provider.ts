@@ -1,5 +1,6 @@
 import { ConfigService } from "@nestjs/config";
 import { v2 as cloudinary } from "cloudinary";
+import * as streamifier from "streamifier";
 
 export const CloudinaryProvider = {
   provide: "CLOUDINARY",
@@ -12,4 +13,24 @@ export const CloudinaryProvider = {
     });
     return cloudinary;
   },
+};
+
+export const uploadToCloudinary = async (
+  file: Express.Multer.File
+): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const upload = cloudinary.uploader.upload_stream(
+      {
+        folder: "company_logos", // optional folder name
+      },
+      (error, result) => {
+        if (error) return reject(error);
+        if (!result?.secure_url)
+          return reject("Upload failed: No URL returned");
+        resolve(result.secure_url);
+      }
+    );
+
+    streamifier.createReadStream(file.buffer).pipe(upload);
+  });
 };

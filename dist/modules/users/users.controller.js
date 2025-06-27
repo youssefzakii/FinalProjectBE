@@ -25,27 +25,37 @@ let UsersController = class UsersController {
         return this.service.getAllUsers();
     }
     getProfile(req) {
-        const user = req['user'];
+        const user = req["user"];
         return this.service.getProfile(user);
+    }
+    search(field) {
+        return this.service.findByField(field);
     }
 };
 exports.UsersController = UsersController;
 __decorate([
-    (0, common_1.Get)('/'),
+    (0, common_1.Get)("/"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "getAllUsers", null);
 __decorate([
-    (0, common_1.Get)('/profile'),
+    (0, common_1.Get)("/profile"),
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Request]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "getProfile", null);
+__decorate([
+    (0, common_1.Get)("/search"),
+    __param(0, (0, common_1.Query)("field")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "search", null);
 exports.UsersController = UsersController = __decorate([
     (0, swagger_1.ApiBearerAuth)(),
-    (0, common_1.Controller)('/users'),
+    (0, common_1.Controller)("/users"),
     __metadata("design:paramtypes", [users_services_1.UsersService])
 ], UsersController);
 //# sourceMappingURL=users.controller.js.map

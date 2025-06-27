@@ -1,6 +1,6 @@
-import { Model } from 'mongoose';
-import { IJwtPayload } from 'src/interfaces/jwt.payload.interface';
-import { User } from 'src/schemas/user.schema';
+import { Model } from "mongoose";
+import { IJwtPayload } from "src/interfaces/jwt.payload.interface";
+import { User } from "src/schemas/user.schema";
 export declare class UsersService {
     private readonly UserModel;
     constructor(UserModel: Model<User>);
@@ -18,4 +18,9 @@ export declare class UsersService {
     } & {
         __v: number;
     }) | null>;
+    findByField(field: string): Promise<(import("mongoose").Document<unknown, {}, User, {}> & User & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    })[]>;
 }

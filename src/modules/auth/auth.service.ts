@@ -57,6 +57,10 @@ export class AuthService {
     });
 
     const { password: _pass, ...result } = user.toJSON();
+    // console.log(Fields);
+    // console.log(result);
+    console.log(user);
+
     return result;
   }
 
@@ -72,7 +76,7 @@ export class AuthService {
     );
 
     if (!isPasswordMatching) {
-      throw new ForbiddenException("Credentials provided are incorrect");
+      throw new ForbiddenException("password is incorrect");
     }
 
     const payload = { username: user.username, id: user._id };
