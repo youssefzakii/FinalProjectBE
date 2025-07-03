@@ -63,7 +63,6 @@ export class AuthService {
 
     return result;
   }
-
   async signIn(dto: signInDto) {
     const user = await this.userModel.findOne({ username: dto.username });
     if (!user) {
@@ -78,8 +77,8 @@ export class AuthService {
     if (!isPasswordMatching) {
       throw new ForbiddenException("password is incorrect");
     }
-
     const payload = { username: user.username, id: user._id };
+
     const token = jwt.sign(
       payload,
       this.configService.getOrThrow<string>("JWT_SECRET")

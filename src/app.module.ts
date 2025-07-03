@@ -11,10 +11,12 @@ import { AuthModule } from "./modules/auth/auth.module";
 import { LoggerMiddleware } from "./middlewares/logger.middleware";
 import { IsAuthenticatedMiddleware } from "./middlewares/is-authenticated.middleware";
 import { CompanyModule } from "./modules/company/company.module";
+import { CvModule } from './modules/CV/cv/cv.module';
+
 @Module({
   imports: [
+    CvModule,
     ConfigModule.forRoot({ isGlobal: true }),
-    //MongooseModule.forRoot('mongodb://localhost/nest'),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (ConfigService: ConfigService) => {
@@ -34,7 +36,9 @@ import { CompanyModule } from "./modules/company/company.module";
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
+
     consumer.apply(LoggerMiddleware).forRoutes("/");
+
     consumer
       .apply(IsAuthenticatedMiddleware)
       .exclude(
@@ -62,3 +66,4 @@ export class AppModule implements NestModule {
       .forRoutes("/");
   }
 }
+

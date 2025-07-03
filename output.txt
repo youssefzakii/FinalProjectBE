@@ -1,0 +1,509 @@
+```json
+{
+  "missing parts": "The CV is missing a dedicated section for awards, certifications (besides the diploma, list individual certifications), and specific achievements within projects. While languages are listed, a more specific level of proficiency (e.g., B2, C1) would be helpful for English. A summary of interests beyond work could also be beneficial.",
+  "tests": [
+    {
+      "C++": [
+        {
+          "content": "What is the primary use case for pointers in C++?",
+          "choices": [
+            "a. Storing memory addresses",
+            "b. Performing arithmetic operations",
+            "c. Defining data types"
+          ],
+          "correct answer": "a"
+        },
+        {
+          "content": "Which of the following is an example of dynamic memory allocation in C++?",
+          "choices": [
+            "a. int arr[10];",
+            "b. int *ptr = new int;",
+            "c. int x = 5;"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "What is the purpose of the 'const' keyword in C++?",
+          "choices": [
+            "a. To define a constant variable or function",
+            "b. To declare a variable",
+            "c. To indicate a comment"
+          ],
+          "correct answer": "a"
+        },
+        {
+          "content": "Which concept allows creating new classes from existing classes?",
+          "choices": [
+            "a. Polymorphism",
+            "b. Inheritance",
+            "c. Encapsulation"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "What are the advantages of using templates in C++?",
+          "choices": [
+            "a. Code reusability for different data types",
+            "b. Improved compilation speed",
+            "c. Automatic memory management"
+          ],
+          "correct answer": "a"
+        }
+      ]
+    },
+    {
+      "HTML": [
+        {
+          "content": "Which HTML tag is used to define an internal style sheet?",
+          "choices": [
+            "a. <style>",
+            "b. <script>",
+            "c. <css>"
+          ],
+          "correct answer": "a"
+        },
+        {
+          "content": "Which HTML tag is used to create a hyperlink?",
+          "choices": [
+            "a. <a>",
+            "b. <link>",
+            "c. <hyper>"
+          ],
+          "correct answer": "a"
+        },
+        {
+          "content": "Which of the following is the correct HTML for inserting an image?",
+          "choices": [
+            "a. <img href=\"image.gif\" alt=\"MyImage\">",
+            "b. <img src=\"image.gif\" alt=\"MyImage\">",
+            "c. <image src=\"image.gif\" alt=\"MyImage\">"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "Which tag is used to define the structure of an HTML table?",
+          "choices": [
+            "a. <list>",
+            "b. <table>",
+            "c. <grid>"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "What does the 'alt' attribute in an 'img' tag specify?",
+          "choices": [
+            "a. Alternative text for the image",
+            "b. Alignment of the image",
+            "c. Animation of the image"
+          ],
+          "correct answer": "a"
+        }
+      ]
+    },
+    {
+      "CSS": [
+        {
+          "content": "Which CSS property is used to change the text color of an element?",
+          "choices": [
+            "a. text-color",
+            "b. color",
+            "c. font-color"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "Which CSS property is used to control the spacing between lines of text?",
+          "choices": [
+            "a. line-height",
+            "b. text-spacing",
+            "c. letter-spacing"
+          ],
+          "correct answer": "a"
+        },
+        {
+          "content": "How do you select an element with the ID 'myElement' in CSS?",
+          "choices": [
+            "a. .myElement",
+            "b. #myElement",
+            "c. element.myElement"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "Which CSS property is used to set the background color of an element?",
+          "choices": [
+            "a. background-color",
+            "b. color-background",
+            "c. element-background"
+          ],
+          "correct answer": "a"
+        },
+        {
+          "content": "What does the 'box-sizing: border-box;' property do in CSS?",
+          "choices": [
+            "a. Includes padding and border in the element's total width and height",
+            "b. Excludes padding and border from the element's total width and height",
+            "c. Applies a border to the element's box"
+          ],
+          "correct answer": "a"
+        }
+      ]
+    },
+    {
+      "JAVASCRIPT": [
+        {
+          "content": "Which keyword is used to declare a variable in JavaScript?",
+          "choices": [
+            "a. variable",
+            "b. var",
+            "c. v"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "What is the purpose of the 'typeof' operator in JavaScript?",
+          "choices": [
+            "a. To check if a variable is defined",
+            "b. To determine the data type of a variable",
+            "c. To convert a variable to a specific type"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "Which of the following is the correct way to write a JavaScript array?",
+          "choices": [
+            "a. var colors = \"red\", \"green\", \"blue\"",
+            "b. var colors = [\"red\", \"green\", \"blue\"]",
+            "c. var colors = (red, green, blue)"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "What is the purpose of the 'addEventListener' method in JavaScript?",
+          "choices": [
+            "a. To add HTML elements to a document",
+            "b. To attach an event handler to an element",
+            "c. To create a new event"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "What is a closure in JavaScript?",
+          "choices": [
+            "a. A function that is defined inside another function and has access to its variables",
+            "b. A method to close a browser window",
+            "c. A loop construct"
+          ],
+          "correct answer": "a"
+        }
+      ]
+    },
+    {
+      "PYTHON": [
+        {
+          "content": "Which of the following data types is mutable in Python?",
+          "choices": [
+            "a. Tuple",
+            "b. String",
+            "c. List"
+          ],
+          "correct answer": "c"
+        },
+        {
+          "content": "Which keyword is used to define a function in Python?",
+          "choices": [
+            "a. function",
+            "b. def",
+            "c. define"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "What is the purpose of the 'if __name__ == \"__main__\"' block in Python?",
+          "choices": [
+            "a. To define the main function",
+            "b. To execute code only when the script is run directly",
+            "c. To import modules"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "How do you open a file for reading in Python?",
+          "choices": [
+            "a. open(\"file.txt\", \"r\")",
+            "b. open(\"file.txt\", \"w\")",
+            "c. open(\"file.txt\", \"a\")"
+          ],
+          "correct answer": "a"
+        },
+        {
+          "content": "What is a Python decorator?",
+          "choices": [
+            "a. A design pattern for creating reusable code",
+            "b. A way to modify or enhance a function in a clear and concise way",
+            "c. A way to document code"
+          ],
+          "correct answer": "b"
+        }
+      ]
+    },
+    {
+      "DATABASE DESIGN": [
+        {
+          "content": "What is normalization in database design?",
+          "choices": [
+            "a. Organizing data to reduce redundancy and improve data integrity",
+            "b. Backing up the database",
+            "c. Encrypting the database"
+          ],
+          "correct answer": "a"
+        },
+        {
+          "content": "What is a primary key in a database table?",
+          "choices": [
+            "a. A key that can have duplicate values",
+            "b. A key that uniquely identifies each row in a table",
+            "c. A key used for sorting data"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "What is the purpose of an index in a database?",
+          "choices": [
+            "a. To store data",
+            "b. To speed up data retrieval",
+            "c. To encrypt data"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "What is a foreign key?",
+          "choices": [
+            "a. A key that points to another table",
+            "b. The main identifier of the table",
+            "c. The key used for mathematical operations"
+          ],
+          "correct answer": "a"
+        },
+        {
+          "content": "What is an ER diagram used for?",
+          "choices": [
+            "a. Visualizing the database schema",
+            "b. Optimizing database performance",
+            "c. Data compression"
+          ],
+          "correct answer": "a"
+        }
+      ]
+    },
+    {
+      "SQL": [
+        {
+          "content": "Which SQL command is used to retrieve data from a database?",
+          "choices": [
+            "a. INSERT",
+            "b. SELECT",
+            "c. UPDATE"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "Which SQL command is used to add new data to a database?",
+          "choices": [
+            "a. ADD",
+            "b. INSERT",
+            "c. CREATE"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "What is the purpose of the WHERE clause in SQL?",
+          "choices": [
+            "a. To sort the data",
+            "b. To filter the data",
+            "c. To join tables"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "How do you sort the result-set of a query in SQL?",
+          "choices": [
+            "a. SORT BY",
+            "b. ORDER BY",
+            "c. ARRANGE BY"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "Which SQL keyword is used to remove duplicate rows from a result set?",
+          "choices": [
+            "a. UNIQUE",
+            "b. DISTINCT",
+            "c. REMOVE"
+          ],
+          "correct answer": "b"
+        }
+      ]
+    },
+    {
+      "GIT": [
+        {
+          "content": "What is the purpose of the 'git clone' command?",
+          "choices": [
+            "a. To create a new repository",
+            "b. To copy a repository from a remote source to a local machine",
+            "c. To delete a repository"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "What is the purpose of the 'git commit' command?",
+          "choices": [
+            "a. To upload changes to a remote repository",
+            "b. To save changes locally",
+            "c. To create a new branch"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "What is the purpose of the 'git branch' command?",
+          "choices": [
+            "a. To merge branches",
+            "b. To create, list, or delete branches",
+            "c. To commit changes"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "What is a merge conflict in Git?",
+          "choices": [
+            "a. When two branches have the same name",
+            "b. When two or more developers made changes to the same lines in a file",
+            "c. When a branch is deleted"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "What is the purpose of '.gitignore' file?",
+          "choices": [
+            "a. To ignore certain files or directories from being tracked by Git",
+            "b. To force Git to track every file",
+            "c. To store Git configuration"
+          ],
+          "correct answer": "a"
+        }
+      ]
+    },
+    {
+      "WORDPRESS": [
+        {
+          "content": "What is a WordPress plugin?",
+          "choices": [
+            "a. A theme for your website",
+            "b. A way to add extra functionality to your WordPress site",
+            "c. A default image in WordPress"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "What is a WordPress theme?",
+          "choices": [
+            "a. A set of CSS rules",
+            "b. A set of PHP scripts",
+            "c. A collection of files that determine the look and feel of a website"
+          ],
+          "correct answer": "c"
+        },
+        {
+          "content": "What is a WordPress widget?",
+          "choices": [
+            "a. A shortcode for embedding content",
+            "b. A tool for backing up your website",
+            "c. A small block of content that can be placed in various areas of your site (e.g., sidebar)"
+          ],
+          "correct answer": "c"
+        },
+        {
+          "content": "What is the WordPress Loop?",
+          "choices": [
+            "a. The process of creating a user account",
+            "b. The code that displays posts on a WordPress page",
+            "c. A function for image optimization"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "What is the purpose of WordPress's 'wp-config.php' file?",
+          "choices": [
+            "a. It stores the website's content",
+            "b. It stores the database connection details",
+            "c. It defines the website's theme"
+          ],
+          "correct answer": "b"
+        }
+      ]
+    },
+    {
+      "React": [
+        {
+          "content": "What is JSX in React?",
+          "choices": [
+            "a. A JavaScript library",
+            "b. A syntax extension to JavaScript that allows writing HTML-like code",
+            "c. A CSS preprocessor"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "What is a React component?",
+          "choices": [
+            "a. A JavaScript function",
+            "b. A reusable piece of UI that defines how a part of the application should look and behave",
+            "c. A database query"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "What is the purpose of 'state' in React?",
+          "choices": [
+            "a. To store data that doesn't change",
+            "b. To manage the data that can change over time and trigger UI updates",
+            "c. To define the appearance of a component"
+          ],
+          "correct answer": "b"
+        },
+        {
+          "content": "What is the Virtual DOM in React?",
+          "choices": [
+            "a. A lightweight copy of the actual DOM kept in memory",
+            "b. A function to create real DOM elements",
+            "c. A library for DOM manipulation"
+          ],
+          "correct answer": "a"
+        },
+        {
+          "content": "What are React Hooks?",
+          "choices": [
+            "a. Functions that let you “hook into” React state and lifecycle features from function components",
+            "b. Functions to connect to databases",
+            "c. Functions for CSS styling"
+          ],
+          "correct answer": "a"
+        }
+      ]
+    }
+  ],
+  "syntax problems": [
+    "Missing period at the end of the first sentence in the profile section.",
+    "In the profile section: \"NodeJs\" should be \"Node.js\".",
+    "In EDUCATION, there's a mix of date formats (month/year vs year/year) in the internship section. Consistency is needed.",
+    "In the Algorithms Visualizer project description: \"Html\" should be \"HTML\".",
+    "In the Algorithms Visualizer project description:  \"I worked more in logic part however my teammates improved the UI part.\" This is grammatically awkward and could be rephrased for clarity (e.g., \"I focused on the logic implementation while my teammates enhanced the UI.\").",
+    "In the Personal Portfolio project description: \"smtp\" should be \"SMTP\"",
+    "In the Buffalo Burger Clone Website project description: woocomerce should be woocommerce",
+    "In the Volunteer Experience section: 'Participated as a trainer in my college's ICPC society community' could be clearer. Consider rewording (e.g., 'Served as a trainer for the ICPC society at my college').",
+    "In the Cyber security training section: \"I Was introduced to cyber security concepts.\" should be \"I was introduced to cybersecurity concepts.\"",
+    "In the Cyber security training section: \"CMD\" should be \"command line\""
+  ]
+}
+```
