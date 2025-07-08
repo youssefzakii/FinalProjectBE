@@ -3,6 +3,8 @@ import * as path from 'path';
 import * as fsSync from 'fs';
 import { v4 as uuidv4 } from 'uuid';
 
+/*************  ✨ Windsurf Command ⭐  *************/
+/*******  cb230ee5-76aa-44f3-84aa-8b23cd2a53a8  *******/
 export async function saveResource(
   buffer: Buffer | string,
   username: string,
