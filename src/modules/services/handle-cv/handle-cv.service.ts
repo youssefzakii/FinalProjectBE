@@ -7,7 +7,7 @@ import { Express } from 'express';
 import { ResourcesService } from 'src/modules/resources/resources.service';
 import { v4 as uuidv4 } from 'uuid';
 import * as path from 'path';
-
+import { saveResource } from 'src/common/utlities/utlities';
 @Injectable()
 export class HandleCvService {
   private agent: GoogleGenAI;
@@ -27,52 +27,43 @@ export class HandleCvService {
       throw error;
     }
   }
-  async analyzeResume(uploadedFile: Express.Multer.File, username: string): Promise<string> {
-    try {
-      const pdfData = await pdf(uploadedFile.buffer);
-      const resumeText = pdfData.text;
+  async analyzeResume(uploadedFile: Express.Multer.File, username: string): Promise<string>
+{
+  try
+  {
+    const pdfData = await pdf(uploadedFile.buffer);
+    const resumeText = pdfData.text;
 
-      const prompt = await fs.readFile(this.promptPath, 'utf-8');
-      const finalPrompt = `${prompt}\n\n${resumeText}`;
-      const response = await this.agent.models.generateContent({
-        model: 'gemini-2.0-flash',
-        contents: finalPrompt,
-        config: {
-          responseMimeType: 'text/plain',
-        },
-      });
+    const prompt = await fs.readFile(this.promptPath, 'utf-8');
+    const finalPrompt = `${prompt}\n\n${resumeText}`;
 
-      const resultText = response.text ?? '[No response text]';
+    const response = await this.agent.models.generateContent({
+      model: 'gemini-2.0-flash',
+      contents: finalPrompt,
+      config: { responseMimeType: 'text/plain' },
+    });
 
-      const outputDir = 'output';
-      const fileName = `${uuidv4()}.txt`;
-      const filePath = path.join(outputDir, fileName);
+    const resultText = response.text ?? '[No response text]';
+    await saveResource(
+      uploadedFile.buffer,
+      username,
+      'resume',
+      this.resourceService
+    );
+    await saveResource(
+      resultText,
+      username,
+      'result',
+      this.resourceService
+    );
 
-      if (!fsSync.existsSync(outputDir)) {
-        await fs.mkdir(outputDir, { recursive: true });
-      }
-      const pdfFileName = `${uuidv4()}.pdf`;
-      const pdfPath = path.join(outputDir, pdfFileName);
-      await fs.writeFile(pdfPath, uploadedFile.buffer);
-      await this.resourceService.create({
-        username,
-        title: uploadedFile.originalname,
-        url: pdfPath,
-        type: 'resume',
-      });
-      await fs.writeFile(filePath, resultText);
-
-      await this.resourceService.create({
-        username,
-        title: uploadedFile.originalname,
-        url: filePath,
-        type: 'result',
-      });
-
-      return resultText;
-    } catch (error) {
-      console.error('Error analyzing resume:', error);
-      throw error;
-    }
+    return resultText;
+  }
+  catch (error)
+  {
+    console.error('Error analyzing resume:', error);
+    throw error;
   }
 }
+}
+
