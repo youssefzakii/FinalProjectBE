@@ -3,29 +3,28 @@ import {
   IsEmail,
   IsString,
   MinLength,
-  Max,
-  Min,
   Matches,
-  IsInt,
   IsArray,
   ArrayMinSize,
+  Max,
+  Min,
+  IsInt,
 } from "class-validator";
-
+import { Transform } from "class-transformer";
 class BaseAuthDto {
-  @ApiProperty({
-    example: "youssef",
-  })
+  @ApiProperty({ example: "youssef" })
+  @IsString()
   username: string;
-  @ApiProperty({
-    example: "12345678",
-  })
+
+  @ApiProperty({ example: "Pass1234" })
   @IsString()
   @MinLength(8)
-  @Matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, {
+  @Matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}/, {
     message: "Password must be alphanumeric and at least 8 characters long",
   })
   password: string;
 }
+
 export class signInDto extends BaseAuthDto {}
 
 export class signUpDto extends BaseAuthDto {
@@ -35,11 +34,11 @@ export class signUpDto extends BaseAuthDto {
   })
   fullname: string;
 */
-  @ApiProperty({
-    example: "email@gmail.com",
-  })
-  @IsEmail()
+
+  @ApiProperty({ example: "email@gmail.com" })
+  @IsEmail({}, { message: "Email must be a valid email address" })
   email: string;
+
   /*
   @ApiProperty({
     example: 25,
@@ -57,6 +56,7 @@ export class signUpDto extends BaseAuthDto {
   })
   phone: string;
 */
+
   @ApiProperty({
     example: ["Frontend", "Backend"],
     type: [String],
@@ -64,5 +64,21 @@ export class signUpDto extends BaseAuthDto {
   @IsArray()
   @ArrayMinSize(1, { message: "At least one field should be added" })
   @IsString({ each: true })
+  @Transform(({ value }) => {
+    // لو جت string زي "Frontend,Backend" حولها لـ array
+    if (typeof value === "string") {
+      return value.split(",").map((item) => item.trim());
+    }
+    return value;
+  })
   Fields: string[];
+
+  /*
+  @ApiProperty({
+    type: "string",
+    format: "binary",
+    required: false,
+  })
+  avatar?: any;
+*/
 }

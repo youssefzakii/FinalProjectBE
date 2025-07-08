@@ -56,13 +56,21 @@ export class AuthService {
       avatar: avatarUrl,
     });
 
-    const { password: _pass, ...result } = user.toJSON();
+    const payload = { username: user.username, id: user._id };
+
+    const token = jwt.sign(
+      payload,
+      this.configService.getOrThrow<string>("JWT_SECRET")
+    );
+
+    // const { password: _pass, ...result } = user.toJSON();
     // console.log(Fields);
     // console.log(result);
     console.log(user);
 
-    return result;
+    return { token };
   }
+
   async signIn(dto: signInDto) {
     const user = await this.userModel.findOne({ username: dto.username });
     if (!user) {
@@ -77,6 +85,7 @@ export class AuthService {
     if (!isPasswordMatching) {
       throw new ForbiddenException("password is incorrect");
     }
+
     const payload = { username: user.username, id: user._id };
 
     const token = jwt.sign(

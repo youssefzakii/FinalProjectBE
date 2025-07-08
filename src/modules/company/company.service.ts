@@ -19,7 +19,13 @@ export class CompanyService {
   ) {}
 
   async signUp(dto: SignUpCompanyDto, logoFile?: Express.Multer.File) {
-    const { companyName, email, password, Fields, description } = dto;
+    const {
+      companyName,
+      email,
+      password,
+      Fields,
+      // description
+    } = dto;
 
     const existing = await this.companyModel.findOne({
       $or: [{ companyName }, { email }],
@@ -38,7 +44,7 @@ export class CompanyService {
       email,
       password: hashedPassword,
       Fields,
-      description,
+      // description,
       logo: logoUrl || null,
     });
 
