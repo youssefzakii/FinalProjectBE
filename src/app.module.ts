@@ -13,10 +13,12 @@ import { IsAuthenticatedMiddleware } from "./middlewares/is-authenticated.middle
 import { CompanyModule } from "./modules/company/company.module";
 import { CvModule } from './modules/CV/cv/cv.module';
 import { ScoreCvModule } from './schemas/score-cv.module';
+import { JobModule } from "./modules/job/job.module";
 
 @Module({
   imports: [
     CvModule,
+    JobModule,
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
