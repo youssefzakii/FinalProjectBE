@@ -16,10 +16,10 @@ export class Company {
 
   @Prop({ type: [String], default: [] })
   Fields: string[];
-
+  /*
   @Prop()
   description: string;
-
+*/
   @Prop()
   logo: string;
 }

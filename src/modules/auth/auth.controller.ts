@@ -34,12 +34,12 @@ export class AuthController {
           format: "binary",
         },
       },
+      required: ["username", "password", "email", "Fields"],
     },
   })
   signUp(@Body() dto: signUpDto, @UploadedFile() avatar: Express.Multer.File) {
     return this.service.signUp(dto, avatar);
   }
-
   @Post("/sign-in")
   signIn(@Body() dto: signInDto) {
     return this.service.signIn(dto);

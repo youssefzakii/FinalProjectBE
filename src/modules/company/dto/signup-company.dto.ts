@@ -46,12 +46,13 @@ export class SignUpCompanyDto extends BaseCompanyAuthDto {
   @IsString({ each: true })
   Fields: string[];
 
+  /*
   @ApiProperty({
     example: "We specialize in backend systems",
   })
   @IsString()
   description: string;
-
+*/
   @ApiProperty({
     type: "string",
     format: "binary",
