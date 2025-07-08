@@ -12,6 +12,7 @@ import { LoggerMiddleware } from "./middlewares/logger.middleware";
 import { IsAuthenticatedMiddleware } from "./middlewares/is-authenticated.middleware";
 import { CompanyModule } from "./modules/company/company.module";
 import { CvModule } from './modules/CV/cv/cv.module';
+import { ScoreCvModule } from './schemas/score-cv.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { CvModule } from './modules/CV/cv/cv.module';
     AuthModule,
     UsersModule,
     CompanyModule,
+    ScoreCvModule,
   ],
   controllers: [],
   providers: [],
@@ -57,7 +59,11 @@ export class AppModule implements NestModule {
         {
           path: "/company/sign-in",
           method: RequestMethod.POST,
-        }
+        },
+        {
+          path: "/score-cv/analyze",
+          method: RequestMethod.POST,
+        },
         // {
         //   path: "/company/search",
         //   method: RequestMethod.GET,
