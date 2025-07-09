@@ -19,13 +19,7 @@ export class CompanyService {
   ) {}
 
   async signUp(dto: SignUpCompanyDto, logoFile?: Express.Multer.File) {
-    const {
-      companyName,
-      email,
-      password,
-      Fields,
-      // description
-    } = dto;
+    const { companyName, email, password, Fields } = dto;
 
     const existing = await this.companyModel.findOne({
       $or: [{ companyName }, { email }],
@@ -44,12 +38,18 @@ export class CompanyService {
       email,
       password: hashedPassword,
       Fields,
-      // description,
       logo: logoUrl || null,
     });
 
-    const { password: _pass, ...result } = company.toJSON();
-    return result;
+    const payload = { companyName: company.companyName, id: company._id };
+
+    const token = jwt.sign(
+      payload,
+      this.configService.getOrThrow<string>("JWT_SECRET"),
+      { expiresIn: "1d" }
+    );
+
+    return { token };
   }
 
   async signIn(dto: SignInCompanyDto) {

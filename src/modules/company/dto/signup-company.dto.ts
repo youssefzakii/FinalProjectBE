@@ -8,22 +8,25 @@ import {
   ArrayMinSize,
   IsOptional,
 } from "class-validator";
+import { Transform } from "class-transformer";
 
 class BaseCompanyAuthDto {
   @ApiProperty({
-    example: "TechBridge Solutions",
+    example: "objects",
   })
   @IsString()
   companyName: string;
 
   @ApiProperty({
-    example: "12345678",
+    example: "pass1234",
   })
   @IsString()
-  @MinLength(8)
+  @MinLength(8, {
+    message: "Password must be at least 8 characters long",
+  })
   @Matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, {
     message:
-      "Password must be alphanumeric and at least 8 characters long (include letters and numbers)",
+      "Password must be alphanumeric and include at least one letter and one number",
   })
   password: string;
 }
@@ -32,17 +35,30 @@ export class SignInCompanyDto extends BaseCompanyAuthDto {}
 
 export class SignUpCompanyDto extends BaseCompanyAuthDto {
   @ApiProperty({
-    example: "company@example.com",
+    example: "objects@alex.com",
   })
-  @IsEmail()
+  @IsEmail({}, { message: "Email must be a valid email address" })
   email: string;
 
   @ApiProperty({
     example: ["Backend", "AI"],
     type: [String],
   })
-  @IsArray()
-  @ArrayMinSize(1)
+  @Transform(({ value }) => {
+    if (typeof value === "string") {
+      try {
+        const parsed = JSON.parse(value);
+        return Array.isArray(parsed) ? parsed : [parsed];
+      } catch {
+        return [value]; // fallback: wrap string into array
+      }
+    }
+    return value;
+  })
+  @IsArray({ message: "Fields must be an array" })
+  @ArrayMinSize(1, {
+    message: "Fields must contain at least 1 element",
+  })
   @IsString({ each: true })
   Fields: string[];
 
@@ -53,10 +69,12 @@ export class SignUpCompanyDto extends BaseCompanyAuthDto {
   @IsString()
   description: string;
 */
+
   @ApiProperty({
     type: "string",
     format: "binary",
     required: false,
   })
+  @IsOptional()
   logoFile?: any;
 }
