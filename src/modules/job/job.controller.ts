@@ -75,6 +75,7 @@ export class JobController {
   })
   create(@Body() dto: CreateJobDto, @Req() req: Request) {
     const companyId = req['user']?.id;
+    console.log(dto);
     const payloadWithCompany = { ...dto, company: companyId };
     return this.jobService.addJob(payloadWithCompany);
   }

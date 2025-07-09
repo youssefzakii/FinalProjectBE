@@ -70,6 +70,9 @@ export class CompanyService {
 
     return { token };
   }
+  async getAll() {
+    return this.companyModel.find();
+  }
 
   async findByField(field: string) {
     return this.companyModel.find({ Fields: field });
