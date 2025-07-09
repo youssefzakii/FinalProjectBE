@@ -26,7 +26,7 @@ export async function saveResource(
     username,
     title: fname,
     url: filePath,
-    type,
+    type
   });
 
   return filePath;
