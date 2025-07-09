@@ -56,7 +56,7 @@ export class AuthService {
       avatar: avatarUrl,
     });
 
-    const payload = { username: user.username, id: user._id };
+    const payload = { username: user.username, id: user._id, role:user.role };
 
     const token = jwt.sign(
       payload,
@@ -85,8 +85,8 @@ export class AuthService {
     if (!isPasswordMatching) {
       throw new ForbiddenException("password is incorrect");
     }
-
-    const payload = { username: user.username, id: user._id };
+    console.log(user.role);
+    const payload = { username: user.username, id: user._id , role:user.role};
 
     const token = jwt.sign(
       payload,

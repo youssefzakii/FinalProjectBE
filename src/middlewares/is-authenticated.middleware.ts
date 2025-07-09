@@ -25,6 +25,7 @@ export class IsAuthenticatedMiddleware implements NestMiddleware {
       throw new UnauthorizedException();
     }
     try {
+      console.log('ok');
       const payload = jwt.verify(
         token,
         this.ConfigService.getOrThrow<string>('JWT_SECRET'),
@@ -32,6 +33,7 @@ export class IsAuthenticatedMiddleware implements NestMiddleware {
 
       req['user'] = payload;
     } catch (error) {
+      console.log(error);
       throw new UnauthorizedException();
     }
 
