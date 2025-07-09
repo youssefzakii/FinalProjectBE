@@ -7,7 +7,7 @@ import path = require("path");
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.useGlobalPipes(
+  /* app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
       // forbidNonWhitelisted: true,
@@ -20,6 +20,7 @@ async function bootstrap() {
       },
     })
   );
+  */
   // for you ya Assem
   app.enableCors();
 

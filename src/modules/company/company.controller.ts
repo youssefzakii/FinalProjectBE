@@ -6,11 +6,12 @@ import {
   Query,
   UploadedFile,
   UseInterceptors,
+
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { CompanyService } from "./company.service";
 import { SignUpCompanyDto, SignInCompanyDto } from "./dto/signup-company.dto";
-import { ApiConsumes, ApiBody } from "@nestjs/swagger";
+import { ApiConsumes, ApiBody, ApiBearerAuth } from "@nestjs/swagger";
 @Controller("/company")
 export class CompanyController {
   constructor(private readonly service: CompanyService) {}
@@ -31,8 +32,10 @@ export class CompanyController {
     return this.service.signIn(dto);
   }
 
+  @ApiBearerAuth()
   @Get("/search")
   search(@Query("field") field: string) {
+    console.log('ok');
     return this.service.findByField(field);
   }
 }

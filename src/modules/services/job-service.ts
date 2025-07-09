@@ -15,6 +15,7 @@ export class JobService {
   }
 
   async addJob(dto: CreateJobDto) {
+    console.log(dto);
     return this.jobModel.create(dto);
   }
 }
