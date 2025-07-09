@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Req } from '@nestjs/common';
 import { JobService } from '../services/job-service';
 import { CreateJobDto } from '../auth/dto/create-job.dto';
+import { ForbiddenException } from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
@@ -34,7 +35,14 @@ export class JobController {
       ],
     },
   })
-  getAll() {
+  getAll( @Req() req: Request) {
+    console.log(req['user']);
+    const admin = req['user']?.role;
+    console.log(admin);
+    if (admin !== 'admin')
+    {
+        throw new ForbiddenException('Unauthorized');
+    }
     return this.jobService.getAllJobs();
   }
   @ApiBearerAuth()
