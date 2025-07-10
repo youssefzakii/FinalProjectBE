@@ -11,6 +11,7 @@ import * as jwt from "jsonwebtoken";
 import { SignInCompanyDto, SignUpCompanyDto } from "./dto/signup-company.dto";
 import { uploadToCloudinary } from "src/middlewares/cloudinary.provider";
 import { ConfigService } from "@nestjs/config";
+import { summarizeText } from "src/common/utlities/utlities";
 @Injectable()
 export class CompanyService {
   constructor(

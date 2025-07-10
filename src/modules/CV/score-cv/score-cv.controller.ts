@@ -2,7 +2,7 @@ import { Controller, Post, UploadedFile, UseInterceptors, Body, HttpException, H
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ScoreCvService } from '../../services/score-cv/score-cv.service';
 import { saveResource } from 'src/common/utlities/utlities';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { ResourcesService } from 'src/modules/resources/resources.service';
 @Controller('score-cv')
 export class ScoreCvController {
@@ -65,6 +65,15 @@ export class ScoreCvController {
    
   }
   return result;
+  }
+
+  
+  @Post('get-candidate')
+  @ApiBearerAuth()
+  @ApiBody({ description: 'Job description to find candidates' })
+  async getCandidate(@Body('jobDescription') jobDescription: string) {
+    const result = await this.scoreCvService.getCandidate(jobDescription);
+    return result;
   }
 
 }
