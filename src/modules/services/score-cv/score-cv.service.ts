@@ -141,5 +141,25 @@ export class ScoreCvService {
   
     return summaries;
   }
+
+  async getScoresByUserId(userId: string) {
+    return this.cvScoreModel.find({ userId }).sort({ createdAt: -1 });
+  }
+
+  async getAllScores() {
+    return this.cvScoreModel.find({}).sort({ createdAt: -1 });
+  }
+
+  async getScoreById(cvId: string) {
+    return this.cvScoreModel.findById(cvId);
+  }
+
+  async updateScoreById(cvId: string, updateDto: Partial<CvScore>) {
+    return this.cvScoreModel.findByIdAndUpdate(cvId, updateDto, { new: true });
+  }
+
+  async deleteScoreById(cvId: string) {
+    return this.cvScoreModel.findByIdAndDelete(cvId);
+  }
   
 }
