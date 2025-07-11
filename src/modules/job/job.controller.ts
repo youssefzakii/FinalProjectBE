@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Req, Param, Put, Delete } from '@nestjs/common';
 import { JobService } from '../services/job-service';
 import { CreateJobDto } from '../auth/dto/create-job.dto';
 import { ForbiddenException } from '@nestjs/common';
@@ -10,6 +10,7 @@ import {
   ApiBearerAuth,
 } from '@nestjs/swagger';
 import { Request } from 'express';
+import { UpdateJobDto } from '../../schemas/dto/update-job.dto';
 
 
 @ApiTags('Jobs')
@@ -79,4 +80,13 @@ export class JobController {
     const payloadWithCompany = { ...dto, company: companyId };
     return this.jobService.addJob(payloadWithCompany);
   }
+
+  @ApiBearerAuth()
+  @Get('admin/:id')
+  getJobById(@Param('id') id: string, @Req() req: Request) {
+    if (req['user']?.role !== 'admin') throw new ForbiddenException('Unauthorized');
+    return this.jobService.getJobById(id);
+  }
+
+  
 }

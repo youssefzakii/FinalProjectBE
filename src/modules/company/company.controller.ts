@@ -7,13 +7,16 @@ import {
   UploadedFile,
   UseInterceptors,
   Req,
-
+  Param,
+  Put,
+  Delete,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { CompanyService } from "./company.service";
 import { SignUpCompanyDto, SignInCompanyDto } from "./dto/signup-company.dto";
 import { ApiConsumes, ApiBody, ApiBearerAuth } from "@nestjs/swagger";
 import { ForbiddenException } from "@nestjs/common";
+import { UpdateCompanyDto } from "../../schemas/dto/update-company.dto";
 @Controller("/company")
 export class CompanyController {
   constructor(private readonly service: CompanyService) {}
@@ -47,4 +50,38 @@ export class CompanyController {
     return this.service.findByField(field);
   }
 
+  @ApiBearerAuth()
+  @Get("/admin/all")
+  getAllAdmin(@Req() req: Request) {
+    if (req["user"]?.role !== "admin") throw new ForbiddenException("Unauthorized");
+    return this.service.getAll();
+  }
+
+  @ApiBearerAuth()
+  @Get("/admin/:id")
+  getCompanyById(@Param("id") id: string, @Req() req: Request) {
+    if (req["user"]?.role !== "admin") throw new ForbiddenException("Unauthorized");
+    return this.service.getCompanyById(id);
+  }
+
+  @ApiBearerAuth()
+  @Post("/admin")
+  createCompanyAdmin(@Body() dto: UpdateCompanyDto, @Req() req: Request) {
+    if (req["user"]?.role !== "admin") throw new ForbiddenException("Unauthorized");
+    return this.service.createCompanyAdmin(dto);
+  }
+
+  @ApiBearerAuth()
+  @Put("/admin/:id")
+  updateCompanyById(@Param("id") id: string, @Body() dto: UpdateCompanyDto, @Req() req: Request) {
+    if (req["user"]?.role !== "admin") throw new ForbiddenException("Unauthorized");
+    return this.service.updateCompanyById(id, dto);
+  }
+
+  @ApiBearerAuth()
+  @Delete("/admin/:id")
+  deleteCompanyById(@Param("id") id: string, @Req() req: Request) {
+    if (req["user"]?.role !== "admin") throw new ForbiddenException("Unauthorized");
+    return this.service.deleteCompanyById(id);
+  }
 }

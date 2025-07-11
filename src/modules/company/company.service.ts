@@ -78,4 +78,21 @@ export class CompanyService {
   async findByField(field: string) {
     return this.companyModel.find({ Fields: field });
   }
+
+  async getCompanyById(id: string) {
+    return this.companyModel.findById(id);
+  }
+
+  async updateCompanyById(id: string, updateDto: Partial<Company>) {
+    return this.companyModel.findByIdAndUpdate(id, updateDto, { new: true });
+  }
+
+  async deleteCompanyById(id: string) {
+    return this.companyModel.findByIdAndDelete(id);
+  }
+
+  async createCompanyAdmin(dto: Partial<Company>) {
+    // No password hash or logo upload for admin quick add
+    return this.companyModel.create(dto);
+  }
 }

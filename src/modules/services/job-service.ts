@@ -18,4 +18,16 @@ export class JobService {
     console.log(dto);
     return this.jobModel.create(dto);
   }
+
+  async getJobById(id: string) {
+    return this.jobModel.findById(id);
+  }
+
+  async updateJobById(id: string, updateDto: Partial<JobDescription>) {
+    return this.jobModel.findByIdAndUpdate(id, updateDto, { new: true });
+  }
+
+  async deleteJobById(id: string) {
+    return this.jobModel.findByIdAndDelete(id);
+  }
 }
