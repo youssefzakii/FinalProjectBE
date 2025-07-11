@@ -14,6 +14,8 @@ export class JobDescription {
     company: Company;
     @Prop({default:true})
     approved: boolean
+    @Prop()
+    fields: string[]
 }
 
 export const JobDescriptionSchema = SchemaFactory.createForClass(JobDescription);

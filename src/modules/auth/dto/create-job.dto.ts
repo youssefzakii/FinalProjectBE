@@ -1,6 +1,7 @@
 export class CreateJobDto {
     title: string;
     description: string;
-    company: string;
-    approved: boolean;
+    company?: string;
+    approved?: boolean;
+    fields?: string[];
 }

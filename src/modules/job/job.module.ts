@@ -12,5 +12,6 @@ import { JobDescription, JobDescriptionSchema } from 'src/schemas/job-descriptio
   ],
   controllers: [JobController],
   providers: [JobService],
+  exports: [JobService]
 })
 export class JobModule {}

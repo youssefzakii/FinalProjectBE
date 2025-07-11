@@ -18,12 +18,17 @@ import { saveResource } from "src/common/utlities/utlities";
 import { ApiBearerAuth, ApiBody } from "@nestjs/swagger";
 import { ResourcesService } from "src/modules/resources/resources.service";
 import { UpdateCvScoreDto } from "src/schemas/dto/update-cv-score.dto";
+import { CreateJobDto } from "src/modules/auth/dto/create-job.dto";
+import { JobService } from "src/modules/services/job-service";
+import { CompanyService } from "src/modules/company/company.service";
 
 @Controller("score-cv")
 export class ScoreCvController {
   constructor(
     private readonly scoreCvService: ScoreCvService,
     private readonly resourceService: ResourcesService,
+    private readonly jobservice: JobService,
+    private readonly companyService: CompanyService
   ) {}
 
   @Post("analyze")
@@ -96,14 +101,46 @@ export class ScoreCvController {
       throw new HttpException("Forbidden", HttpStatus.FORBIDDEN);
     }
   }
-
   @Post("get-candidate")
   @ApiBearerAuth()
-  @ApiBody({ description: "Job description to find candidates" })
-  async getCandidate(@Body("jobDescription") jobDescription: string) {
-    const result = await this.scoreCvService.getCandidate(jobDescription);
+  @ApiBody({
+    type: CreateJobDto,
+    examples: {
+      example1: {
+        summary: 'A typical job posting',
+        value: {
+          title: 'Backend Developer',
+          description: 'We are looking for a backend developer with NodeJS experience.',
+          approved: true,
+          fields: ['NodeJS', 'Express', 'MongoDB']
+        },
+      },
+    },
+  })
+  async getCandidate(@Body() jobDescription: CreateJobDto, @Req() req) {
+    console.log(req.user);
+    const companyId = req.user?.id;
+  
+    if (!companyId) {
+      throw new HttpException("Unauthorized", HttpStatus.UNAUTHORIZED);
+    }
+  
+    const company = await this.companyService.getCompanyById(companyId);
+  
+    if (!company) {
+      throw new HttpException("Unauthorized", HttpStatus.UNAUTHORIZED);
+    }
+  
+    const job = { ...jobDescription, company: companyId };
+    console.log('jobs ' + job);
+  
+    await this.jobservice.addJob(job);
+    const result = await this.scoreCvService.getCandidate(job);
+  
     return result;
   }
+  
+  
 
   @Get("admin/all")
   @ApiBearerAuth()

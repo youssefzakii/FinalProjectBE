@@ -9,6 +9,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { console } from 'inspector';
 import { summarizeText } from 'src/common/utlities/utlities';
+import { CreateJobDto } from 'src/modules/auth/dto/create-job.dto';
 @Injectable()
 export class ScoreCvService {
   private agent: GoogleGenAI;
@@ -60,9 +61,9 @@ export class ScoreCvService {
   console.log('Saving CV score data:', data);
     return this.cvScoreModel.create(data);
   }
-  async getCandidate(jobDescription: string) {
+  async getCandidate(jobDescription:CreateJobDto ) {
     const candidates = await this.prepareCandidates();
-  
+    console.log('candidates ' + candidates);
     const prompt = `
   You are an AI recruiter.
   
@@ -99,6 +100,7 @@ export class ScoreCvService {
     contents: [{ role: 'user', parts: [{ text: prompt }] }],
     
   });
+  console.log("response " + response);
   
     const text = response.text || "[No response text]";
   
@@ -136,7 +138,7 @@ export class ScoreCvService {
     for (const cv of cvs) {
       const summary = await summarizeText(cv.latestCv.cvText, 10);
       summaries.push({ _id: cv.latestCv.userId, summary, score: cv.latestCv.scoreResult.overall_score, jobSection: cv.latestCv.jobSection });
-      console.log(summary);
+      console.log('summary '+ summary);
     }
   
     return summaries;
