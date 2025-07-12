@@ -134,6 +134,10 @@ export class ScoreCvController {
             type: 'array',
             items: { type: 'string' },
           },
+          cvFileUrl: {
+            type: 'string',
+            example: 'https:\\93eb4da4-0e0f-4025.pdf'
+          }
         },
       },
     },

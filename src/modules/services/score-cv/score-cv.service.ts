@@ -130,6 +130,7 @@ export class ScoreCvService {
         username: matched?.username || 'N/A',
         email: matched?.email || 'N/A',
         Fields: matched?.Fields || [],
+        cvFileUrl: matched?.cvFileUrl || null
       };
     });
   
@@ -170,7 +171,8 @@ export class ScoreCvService {
       jobSection: cv.jobSection || [],
       username: user?.username || 'N/A',
       email: user?.email || 'N/A',
-      Fields: user?.Fields || []
+      Fields: user?.Fields || [],
+      cvFileUrl: cv.cvFileUrl
     });
 
     console.log("summary:", summary);
