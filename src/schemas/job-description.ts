@@ -4,6 +4,8 @@ import { Company } from "./compnay.schema";
 import { Types } from "mongoose";
 import mongoose from 'mongoose';
 export type JobDescriptionDocument = HydratedDocument<JobDescription>;
+
+@Schema({ timestamps: true })
 @Schema()
 export class JobDescription {
     @Prop({ required: true })
@@ -16,6 +18,21 @@ export class JobDescription {
     approved: boolean
     @Prop()
     fields: string[]
+    @Prop({
+        type: [
+          {
+            userId: String,
+            cvId: String,
+            geminiScore: Number,
+            username: String,
+            email: String,
+            Fields: [String],
+            cvFileUrl: String
+          }
+        ],
+        default: []
+      })
+      candidates: any
 }
 
 export const JobDescriptionSchema = SchemaFactory.createForClass(JobDescription);

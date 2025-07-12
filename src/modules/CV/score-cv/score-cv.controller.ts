@@ -21,14 +21,18 @@ import { UpdateCvScoreDto } from "src/schemas/dto/update-cv-score.dto";
 import { CreateJobDto } from "src/modules/auth/dto/create-job.dto";
 import { JobService } from "src/modules/services/job-service";
 import { CompanyService } from "src/modules/company/company.service";
-
+import { JobDescriptionSchema, JobDescriptionDocument, JobDescription } from 'src/schemas/job-description';
+import { Model } from 'mongoose';
+import { InjectModel } from "@nestjs/mongoose";
 @Controller("score-cv")
 export class ScoreCvController {
   constructor(
     private readonly scoreCvService: ScoreCvService,
     private readonly resourceService: ResourcesService,
     private readonly jobservice: JobService,
-    private readonly companyService: CompanyService
+    private readonly companyService: CompanyService,
+    @InjectModel(JobDescription.name)
+    private readonly jobModel: Model<JobDescriptionDocument>
   ) {}
 
   @Post("analyze")
@@ -144,22 +148,25 @@ export class ScoreCvController {
   })
   async getCandidate(@Body() jobDescription: CreateJobDto, @Req() req) {
     const companyId = req.user?.id;
-
-    if (!companyId) {
-      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
-    }
-
+    if (!companyId) throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+  
     const company = await this.companyService.getCompanyById(companyId);
+    if (!company) throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
 
-    if (!company) {
-      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
-    }
+    const job = await this.jobModel.create({
+      ...jobDescription,
+      company: companyId,
+    });
 
-    const job = { ...jobDescription, company: companyId };
-
-    await this.jobservice.addJob(job);
-    return this.scoreCvService.getCan(job);
+    const candidates = await this.scoreCvService.getCan(jobDescription); // still use CreateJobDto here
+  
+    await this.jobModel.findByIdAndUpdate(job._id, {
+      $set: { candidates: candidates },
+    });
+  
+    return candidates;
   }
+  
 
   @Get("admin/all")
   @ApiBearerAuth()

@@ -9,11 +9,12 @@ import { ResourcesModule } from 'src/modules/resources/resources.module';
 import { JobService } from 'src/modules/services/job-service';
 import { JobModule } from 'src/modules/job/job.module';
 import { CompanyModule } from 'src/modules/company/company.module';
-
+import { JobDescription, JobDescriptionSchema } from './job-description';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: CvScore.name, schema: CvScoreSchema },
-    {name: User.name, schema: UserSchema}
+    {name: User.name, schema: UserSchema},
+    { name: JobDescription.name, schema: JobDescriptionSchema }
     ]),
     ResourcesModule,
     JobModule,

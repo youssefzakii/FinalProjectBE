@@ -6,6 +6,7 @@ import sectionedCVPrompt from './quick-test';
 import { saveResource } from 'src/common/utlities/utlities';
 import { CvScoreDocument, CvScore } from 'src/schemas/cv-score.schema';
 import { User, UserDocument, UserSchema } from 'src/schemas/user.schema';
+import { JobDescriptionSchema, JobDescriptionDocument, JobDescription } from 'src/schemas/job-description';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { console } from 'inspector';
@@ -120,9 +121,8 @@ export class ScoreCvService {
     if (!jsonMatch) throw new Error("No JSON block found in AI response.");
   
     const jsonStr = jsonMatch[1].trim();
-    const ranked = JSON.parse(jsonStr); // [{ userId, cvId, geminiScore }]
+    const ranked = JSON.parse(jsonStr);
   
-    // Merge additional user data from original candidates array
     const enriched = ranked.map(item => {
       const matched = candidates.find(c => c.cvId === item.cvId && c.userId === item.userId);
       return {
@@ -133,7 +133,6 @@ export class ScoreCvService {
         cvFileUrl: matched?.cvFileUrl || null
       };
     });
-  
     return enriched;
   }
   
