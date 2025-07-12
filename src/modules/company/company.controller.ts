@@ -84,4 +84,26 @@ export class CompanyController {
     if (req["user"]?.role !== "admin") throw new ForbiddenException("Unauthorized");
     return this.service.deleteCompanyById(id);
   }
+  @ApiBearerAuth()
+  @Put()
+  @UseInterceptors(FileInterceptor("logoFile"))
+  @ApiConsumes("multipart/form-data")
+  @ApiBody({ type: UpdateCompanyDto })
+  async updateOwnCompany(
+    @Body() dto: UpdateCompanyDto,
+    @UploadedFile() logoFile: Express.Multer.File,
+    @Req() req: Request
+  ) {
+    const companyId = req["user"]?.company;
+    if (!companyId) {
+      throw new ForbiddenException("Unauthorized");
+    }
+
+    if (logoFile) {
+      const logoUrl = await this.service.uploadLogoToCloudinary(logoFile);
+      dto.logo = logoUrl;
+    }
+
+    return this.service.updateCompanyById(companyId, dto);
+  }
 }

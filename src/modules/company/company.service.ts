@@ -92,7 +92,9 @@ export class CompanyService {
   }
 
   async createCompanyAdmin(dto: Partial<Company>) {
-    // No password hash or logo upload for admin quick add
     return this.companyModel.create(dto);
+  }
+  async uploadLogoToCloudinary(file: Express.Multer.File): Promise<string> {
+    return uploadToCloudinary(file);
   }
 }
