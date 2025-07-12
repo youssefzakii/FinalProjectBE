@@ -95,5 +95,47 @@ export class JobController {
     return this.jobService.getAllJobsByCompany(companyId);
   }
 
+  @ApiBearerAuth()
+  @Get(':id')
+  @ApiOperation({ summary: 'Get a specific job by ID (Admin or Owner Company)' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns the job description',
+  })
+  getJobByIdWithOwnership(@Param('id') id: string, @Req() req: Request) {
+    const userId = req['user']?.id;
+    const userRole = req['user']?.role;
+    return this.jobService.getJobByIdWithOwnership(id, userId, userRole);
+  }
+
+  @ApiBearerAuth()
+  @Put(':id')
+  @ApiOperation({ summary: 'Update a job description (Admin or Owner Company)' })
+  @ApiBody({
+    type: UpdateJobDto,
+    description: 'Job update data',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Job updated successfully',
+  })
+  updateJobById(@Param('id') id: string, @Body() updateDto: UpdateJobDto, @Req() req: Request) {
+    const userId = req['user']?.id;
+    const userRole = req['user']?.role;
+    return this.jobService.updateJobById(id, updateDto, userId, userRole);
+  }
+
+  @ApiBearerAuth()
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete a job description (Admin or Owner Company)' })
+  @ApiResponse({
+    status: 200,
+    description: 'Job deleted successfully',
+  })
+  deleteJobById(@Param('id') id: string, @Req() req: Request) {
+    const userId = req['user']?.id;
+    const userRole = req['user']?.role;
+    return this.jobService.deleteJobById(id, userId, userRole);
+  }
   
 }

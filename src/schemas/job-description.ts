@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument } from "mongoose";
+import { HydratedDocument, Types } from "mongoose";
 import { Company } from "./compnay.schema";
-import { Types } from "mongoose";
-import mongoose from 'mongoose';
+import { Type } from "class-transformer";
+import mongoose from "mongoose";
 export type JobDescriptionDocument = HydratedDocument<JobDescription>;
 
 @Schema({ timestamps: true })

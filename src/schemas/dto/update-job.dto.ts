@@ -1,4 +1,4 @@
-import { IsOptional, IsString, IsBoolean } from 'class-validator';
+import { IsOptional, IsString, IsBoolean, IsArray } from 'class-validator';
 
 export class UpdateJobDto {
   @IsOptional()
@@ -10,10 +10,11 @@ export class UpdateJobDto {
   description?: string;
 
   @IsOptional()
-  @IsString()
-  company?: string;
-
-  @IsOptional()
   @IsBoolean()
   approved?: boolean;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  fields?: string[];
 } 
