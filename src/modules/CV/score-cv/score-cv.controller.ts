@@ -48,7 +48,7 @@ export class ScoreCvController {
     return result;
   }
 
-  @ApiBearerAuth()
+@ApiBearerAuth()
   @Post("analyze-auth")
   @UseInterceptors(FileInterceptor("cvFile"))
   async analyzeCvAuth(
@@ -68,25 +68,25 @@ export class ScoreCvController {
     if (result.error == true) {
       throw new HttpException(result.message, HttpStatus.BAD_REQUEST);
     } else {
-      const cvFileUrl = await saveResource(
-        file.buffer,
-        user.username,
+    const cvFileUrl = await saveResource(
+      file.buffer,
+      user.username,
         "resume",
-        this.resourceService
-      );
+      this.resourceService
+    );
 
       const pdf = await import("pdf-parse");
       const pdfData = await pdf(file.buffer);
 
-      await this.scoreCvService.saveScore({
-        userId: user.id,
-        username: user.username,
-        cvText: pdfData.text,
-        jobDescription,
+    await this.scoreCvService.saveScore({
+      userId: user.id,
+      username: user.username,
+      cvText: pdfData.text,
+      jobDescription,
         jobSection: user.Fields || [],
-        scoreResult: result,
-        cvFileUrl,
-      });
+      scoreResult: result,
+      cvFileUrl,
+    });
     }
     return result;
   }

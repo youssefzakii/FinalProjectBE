@@ -45,6 +45,22 @@ export class UsersController {
     return this.service.findByField(field);
   }
 
+  @Put("/profile")
+  @ApiOperation({ summary: 'Update current user profile (user can only update their own profile)' })
+  @ApiResponse({ status: 200, description: 'Profile updated successfully' })
+  @ApiResponse({ status: 404, description: 'User not found' })
+  @ApiResponse({ status: 409, description: 'Username or email already exists' })
+  @ApiResponse({ status: 403, description: 'Access denied. Cannot update other user profile' })
+  async updateProfile(
+    @Body() updateUserDto: UpdateUserDto, 
+    @Req() req: Request
+  ) {
+    const user: IJwtPayload = req["user"];
+    
+    // User can only update their own profile
+    return this.service.updateProfile(user.id, updateUserDto);
+  }
+
   // Admin endpoints
   @Get("/admin/all")
   @ApiOperation({ summary: 'Get all users for admin (with admin role check)' })
