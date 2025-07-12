@@ -94,8 +94,10 @@ export class CompanyController {
     @UploadedFile() logoFile: Express.Multer.File,
     @Req() req: Request
   ) {
-    const companyId = req["user"]?.company;
-    if (!companyId) {
+    const companyName = req['user']?.companyName;
+    const companyId = req["user"]?.id;
+    console.log(companyId, req['user']);
+    if (!companyName) {
       throw new ForbiddenException("Unauthorized");
     }
 
