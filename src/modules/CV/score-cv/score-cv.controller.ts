@@ -15,7 +15,7 @@ import {
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ScoreCvService } from "../../services/score-cv/score-cv.service";
 import { saveResource } from "src/common/utlities/utlities";
-import { ApiBearerAuth, ApiBody } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiBody, ApiResponse } from "@nestjs/swagger";
 import { ResourcesService } from "src/modules/resources/resources.service";
 import { UpdateCvScoreDto } from "src/schemas/dto/update-cv-score.dto";
 import { CreateJobDto } from "src/modules/auth/dto/create-job.dto";
@@ -101,46 +101,61 @@ export class ScoreCvController {
       throw new HttpException("Forbidden", HttpStatus.FORBIDDEN);
     }
   }
-  @Post("get-candidate")
   @ApiBearerAuth()
+  @Post('get-candidate')
   @ApiBody({
     type: CreateJobDto,
     examples: {
       example1: {
-        summary: 'A typical job posting',
+        summary: 'Example job request',
         value: {
           title: 'Backend Developer',
-          description: 'We are looking for a backend developer with NodeJS experience.',
+          description: 'We are looking for a c++ dev.',
           approved: true,
-          fields: ['NodeJS', 'Express', 'MongoDB']
+          fields: ['NodeJS', 'Express', 'MongoDB'],
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Returns list of top matched candidates',
+    schema: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          cvId: { type: 'string' },
+          userId: { type: 'string' },
+          geminiScore: { type: 'number' },
+          username: { type: 'string' },
+          email: { type: 'string' },
+          Fields: {
+            type: 'array',
+            items: { type: 'string' },
+          },
         },
       },
     },
   })
   async getCandidate(@Body() jobDescription: CreateJobDto, @Req() req) {
-    console.log(req.user);
     const companyId = req.user?.id;
-  
+
     if (!companyId) {
-      throw new HttpException("Unauthorized", HttpStatus.UNAUTHORIZED);
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
-  
+
     const company = await this.companyService.getCompanyById(companyId);
-  
+
     if (!company) {
-      throw new HttpException("Unauthorized", HttpStatus.UNAUTHORIZED);
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
-  
+
     const job = { ...jobDescription, company: companyId };
-    console.log('jobs ' + job);
-  
+
     await this.jobservice.addJob(job);
-    const result = await this.scoreCvService.getCandidate(job);
-  
-    return result;
+    return this.scoreCvService.getCan(job);
   }
-  
-  
 
   @Get("admin/all")
   @ApiBearerAuth()

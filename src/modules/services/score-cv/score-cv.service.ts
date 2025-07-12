@@ -5,20 +5,22 @@ import { Express } from 'express';
 import sectionedCVPrompt from './quick-test';
 import { saveResource } from 'src/common/utlities/utlities';
 import { CvScoreDocument, CvScore } from 'src/schemas/cv-score.schema';
+import { User, UserDocument, UserSchema } from 'src/schemas/user.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { console } from 'inspector';
 import { summarizeText } from 'src/common/utlities/utlities';
 import { CreateJobDto } from 'src/modules/auth/dto/create-job.dto';
+import { Types } from 'mongoose';
 @Injectable()
 export class ScoreCvService {
   private agent: GoogleGenAI;
-
- constructor(
-  @InjectModel(CvScore.name) private cvScoreModel: Model<CvScoreDocument>
-) {
-  this.agent = new GoogleGenAI({ apiKey: process.env.Google_API_KEY });
-}
+  constructor(
+    @InjectModel(CvScore.name) private cvScoreModel: Model<CvScoreDocument>,
+    @InjectModel('User') private userModel: Model<UserDocument>
+  ) {
+    this.agent = new GoogleGenAI({ apiKey: process.env.Google_API_KEY });
+  }
 
   async analyzeCV(uploadedFile: Express.Multer.File, jobDescription: string): Promise<any> {
     try {
@@ -28,79 +30,89 @@ export class ScoreCvService {
       const response = await this.agent.models.generateContent({
         model: 'gemini-2.0-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
-        // generationConfig: {
-        //   temperature: 0.3,
-        //   responseMimeType: 'text/plain',
-        // },
       });
 
       const text = response.text || '[No response text]';
       const jsonMatch = text.match(/```json([\s\S]*?)```/);
       if (!jsonMatch) throw new Error('No JSON block found in response');
       const jsonStr = jsonMatch[1].trim();
-      // await saveResource(
-      //       uploadedFile.buffer,
-      //       username,
-      //       'resume',
-      //       this.resourceService
-      //     );
-      //     await saveResource(
-      //       resultText,
-      //       username,
-      //       'result',
-      //       this.resourceService
-      //     );
+
       return JSON.parse(jsonStr);
 
     } catch (error) {
       return { error: true, message: error.message };
     }
   }
+
   async saveScore(data: Partial<CvScore>) {
-    
-  console.log('Saving CV score data:', data);
+    console.log('Saving CV score data:', data);
     return this.cvScoreModel.create(data);
   }
-  async getCandidate(jobDescription:CreateJobDto ) {
+
+  async test(jobDescription: CreateJobDto) {
     const candidates = await this.prepareCandidates();
-    console.log('candidates ' + candidates);
+    return candidates;
+    console.log('ok');
+    return 1;
+  }
+
+  async getCan(jobDescription: CreateJobDto) {
+    const candidates = await this.prepareCandidates();
+  
+    const n = 5;
+  
     const prompt = `
   You are an AI recruiter.
   
   **Job Description:**
-  ${jobDescription}
+  ${jobDescription.description}
   
-  **Candidates:**
+  Each candidate includes:
+  - A unique CV ID
+  - A user ID
+  - A summary of their CV
+  - A job section (if available)
+  - An old score (from a previous job)
+  
+  ### Step 1: Score all candidates
+  Carefully assign a **new score (0–100)** to each candidate.  
+  Use the following criteria:
+  - **Summary relevance** to the job (most important)
+  - **Job Section match** to the job (if provided)
+  - **Old score** (can be used as a minor input)
+  
+  ### Step 2: Select top ${n}
+  Choose the candidates with the **highest new scores**.
+  Return them sorted by score descending.
+  
+  ### Output
+  Return **only** this JSON format, no extra text:
+  
+  \`\`\`json
+  [
+    {
+      "cvId": "CV_ID",
+      "userId": "USER_ID",
+      "geminiScore": 92
+    }
+  ]
+  \`\`\`
+  
+  Here are the candidates:
+  
   ${candidates.map(c => `
-  ID: ${c._id}
-  Job Section: ${c.jobSection}
-  Score: ${c.score} (out of 100)
+  CV ID: ${c.cvId}
+  User ID: ${c.userId}
+  Job Section: ${Array.isArray(c.jobSection) ? c.jobSection.join(', ') : c.jobSection || "N/A"}
+  Old Score: ${c.score}
   Summary: ${c.summary}
   `).join("\n\n")}
-  
-  Based on:
-  - How relevant the jobSection is to the job description.
-  - How well the summary matches the job description.
-  - The stored score (but it's based on older job descriptions).
-  
-  Pick the single best candidate overall.
-  
-  **Instructions:**
-  Return ONLY a JSON object with this format:
-  
-  {
-    "id": "CANDIDATE_ID"
-  }
-  
-  No other text.
   `;
   
-  const response = await this.agent.models.generateContent({
-    model: 'gemini-2.0-flash',
-    contents: [{ role: 'user', parts: [{ text: prompt }] }],
-    
-  });
-  console.log("response " + response);
+    const response = await this.agent.models.generateContent({
+      model: 'gemini-2.0-flash',
+      contents: [{ role: 'user', parts: [{ text: prompt }] }],
+    });
   
     const text = response.text || "[No response text]";
   
@@ -108,41 +120,64 @@ export class ScoreCvService {
     if (!jsonMatch) throw new Error("No JSON block found in AI response.");
   
     const jsonStr = jsonMatch[1].trim();
-    const result = JSON.parse(jsonStr);
+    const ranked = JSON.parse(jsonStr); // [{ userId, cvId, geminiScore }]
   
-    console.log(result);
-    const cv = await this.cvScoreModel.findOne({ userId: result.id });
-    console.log(cv);
-    return cv;
+    // Merge additional user data from original candidates array
+    const enriched = ranked.map(item => {
+      const matched = candidates.find(c => c.cvId === item.cvId && c.userId === item.userId);
+      return {
+        ...item,
+        username: matched?.username || 'N/A',
+        email: matched?.email || 'N/A',
+        Fields: matched?.Fields || [],
+      };
+    });
+  
+    return enriched;
   }
   
+
   async prepareCandidates() {
-    console.log("done");
-  
-    const cvs = await this.cvScoreModel.aggregate([
+  console.log("done");
 
-      {
-        $sort: { userId: 1, createdAt: -1 }
-      },
-      {
-        $group: {
-          _id: "$userId",
-          latestCv: { $first: "$$ROOT" }
-        }
+  const aggregated = await this.cvScoreModel.aggregate([
+    { $sort: { userId: 1, createdAt: -1 } },
+    {
+      $group: {
+        _id: "$userId",
+        latestCv: { $first: "$$ROOT" }
       }
-    ]);
-  
-    const summaries: { _id: string, summary: string, score:number, jobSection: string }[] = [];
-
-  
-    for (const cv of cvs) {
-      const summary = await summarizeText(cv.latestCv.cvText, 10);
-      summaries.push({ _id: cv.latestCv.userId, summary, score: cv.latestCv.scoreResult.overall_score, jobSection: cv.latestCv.jobSection });
-      console.log('summary '+ summary);
     }
-  
-    return summaries;
+  ]);
+
+  const latestCvIds = aggregated.map(entry => entry.latestCv._id);
+
+  const cvs = await this.cvScoreModel.find({ _id: { $in: latestCvIds } }).lean();
+  const summaries : any = [];
+
+  for (const cv of cvs) {
+    const summary = await summarizeText(cv.cvText, 10);
+    const user = await this.userModel.findOne({ _id: new Types.ObjectId(cv.userId) });
+    if (!user) {
+      console.warn(`User not found for CV ID: ${cv._id}`);
+      continue;
+    }
+    summaries.push({
+      userId: user?._id.toString(),
+      cvId: cv._id.toString(),
+      summary,
+      score: cv.scoreResult?.overall_score || 0,
+      jobSection: cv.jobSection || [],
+      username: user?.username || 'N/A',
+      email: user?.email || 'N/A',
+      Fields: user?.Fields || []
+    });
+
+    console.log("summary:", summary);
   }
+
+  return summaries;
+}
 
   async getScoresByUserId(userId: string) {
     return this.cvScoreModel.find({ userId }).sort({ createdAt: -1 });
@@ -163,5 +198,4 @@ export class ScoreCvService {
   async deleteScoreById(cvId: string) {
     return this.cvScoreModel.findByIdAndDelete(cvId);
   }
-  
 }
