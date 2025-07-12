@@ -56,6 +56,7 @@ export class HandleCvService {
       'result',
       this.resourceService
     );
+    console.log(resultText);
     const data = JSON.parse(
       resultText.replace(/```json\s*/g, '').replace(/```/g, '').trim()
     );
