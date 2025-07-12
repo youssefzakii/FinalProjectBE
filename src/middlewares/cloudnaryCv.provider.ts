@@ -7,11 +7,13 @@ export const uploadBufferToCloudinary = async (
   filename?: string
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
+    const base = filename?.split(".")[0];
+    console.log(filename);
     const upload = cloudinary.uploader.upload_stream(
       {
         folder,
         resource_type: "auto",
-        public_id: filename ? filename.replace(/\.[^/.]+$/, "") : undefined // remove extension if provided
+        public_id: base
       },
       (error, result) => {
         if (error) return reject(error);
