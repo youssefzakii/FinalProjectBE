@@ -88,7 +88,24 @@ export class CompanyController {
   @Put()
   @UseInterceptors(FileInterceptor("logoFile"))
   @ApiConsumes("multipart/form-data")
-  @ApiBody({ type: UpdateCompanyDto })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        companyName: { type: 'string', example: 'anotherCompany.' },
+        email: { type: 'string', example: 'acme@example.com' },
+        Fields: {
+          type: 'array',
+          items: { type: 'string' },
+          example: ['Frontend', 'Backend']
+        },
+        logoFile: {
+          type: 'string',
+          format: 'binary'
+        }
+      },
+    },
+  })
   async updateOwnCompany(
     @Body() dto: UpdateCompanyDto,
     @UploadedFile() logoFile: Express.Multer.File,
