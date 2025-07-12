@@ -87,6 +87,13 @@ export class JobController {
     if (req['user']?.role !== 'admin') throw new ForbiddenException('Unauthorized');
     return this.jobService.getJobById(id);
   }
+  @ApiBearerAuth()
+  @Get('company')
+  getAllJobsByCompany(@Req() req: Request) {
+    const companyId = req['user']?.id;
+    if (!companyId) throw new ForbiddenException('Unauthorized');
+    return this.jobService.getAllJobsByCompany(companyId);
+  }
 
   
 }

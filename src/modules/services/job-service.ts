@@ -13,6 +13,9 @@ export class JobService {
   async getAllJobs() {
     return this.jobModel.find().populate('company');
   }
+  async getAllJobsByCompany(id: string) {
+    return this.jobModel.find({ company: id });
+  }
 
   async addJob(dto: CreateJobDto) {
     console.log(dto);
