@@ -56,7 +56,14 @@ export class AuthService {
       avatar: avatarUrl,
     });
 
-    const payload = { username: user.username, id: user._id, role:user.role };
+    const payload = {
+      username: user.username,
+      id: user._id,
+      role: user.role,
+      email: user.email,
+      avatar: user.avatar,
+      fields: user.Fields,
+    };
 
     const token = jwt.sign(
       payload,
@@ -86,7 +93,14 @@ export class AuthService {
       throw new ForbiddenException("password is incorrect");
     }
     console.log(user.role);
-    const payload = { username: user.username, id: user._id , role:user.role};
+    const payload = {
+      username: user.username,
+      id: user._id,
+      role: user.role,
+      email: user.email,
+      avatar: user.avatar,
+      fields: user.Fields,
+    };
 
     const token = jwt.sign(
       payload,
