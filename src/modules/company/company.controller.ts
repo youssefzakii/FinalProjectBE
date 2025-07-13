@@ -43,6 +43,14 @@ export class CompanyController {
     return this.service.getAll();
   }
   @ApiBearerAuth()
+  @Get("/getCompany")
+  getCompany(@Req() req: Request) {
+    const id = req['user']?.id;
+    if (!id) throw new ForbiddenException("Unauthorized");
+    return this.service.getCompanyById(id);
+  }
+
+  @ApiBearerAuth()
   @Get("/search")
 
   search(@Query("field") field: string) {
